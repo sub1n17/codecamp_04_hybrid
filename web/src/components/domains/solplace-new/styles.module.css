@@ -47,5 +47,37 @@
     border-radius: 8px;
     border: 1px solid #000000;
     padding-inline: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
 
+.address_txt {
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.upload_img {
+    border-radius: 8px;
+    overflow: hidden;
+    width: 100px;
+    height: 100px;
+    flex-shrink: 0;
+    /* ㄴ> 이미지 추가 시 줄어들지 않게 하기*/
+}
+
+.img_wrapper {
+    display: flex;
+    gap: 12px;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    margin-right: calc(-1.25rem);
+    /* ㄴ> 오른쪽 패딩만 제거 */
+    -webkit-overflow-scrolling: touch;
+    /* ㄴ> iOS 사파리에서 스크롤을 자연스럽게(부드럽게) 만들어주는 속성 */
+}
+
+/* 스크롤바 숨기기 */
+.img_wrapper::-webkit-scrollbar {
+    display: none;
 }
