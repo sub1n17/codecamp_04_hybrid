@@ -33,3 +33,75 @@ html {
     /*  360 : 16 = 100vw : x */
     font-size: calc((40 / 9) * 1vw);
 }
+
+/* 페이지 이동하기 뷰트랜지션 */
+@keyframes old_page {
+    from {
+        transform: translateX(0%);
+    }
+
+    to {
+        transform: translateX(-100%);
+    }
+}
+
+@keyframes new_page {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+
+    50% {
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0%);
+        opacity: 1;
+    }
+}
+
+html::view-transition-old(root) {
+    animation-name: old_page;
+    animation-duration: 0.5s;
+}
+
+html::view-transition-new(root) {
+    animation-name: new_page;
+    animation-duration: 0.5s;
+}
+
+/* 뒤로가기 뷰트랜지션 */
+@keyframes old_page_back {
+    from {
+        transform: translateX(0%);
+    }
+
+    to {
+        transform: translateX(100%);
+    }
+}
+
+@keyframes new_page_back {
+    from {
+        opacity: 0;
+    }
+
+    30% {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+html.backWithTransition::view-transition-old(root) {
+    animation-name: old_page_back;
+    animation-duration: 0.5s;
+}
+
+html.backWithTransition::view-transition-new(root) {
+    animation-name: new_page_back;
+    animation-duration: 0.5s;
+}

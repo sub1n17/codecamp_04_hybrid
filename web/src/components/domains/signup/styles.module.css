@@ -1,0 +1,38 @@
+.title_wrapper {
+    margin-bottom: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    gap: 0.75rem;
+}
+
+
+.signup_title {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: #121212;
+}
+
+.signup_subtitle {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #777777;
+}
+
+.form_title {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #333333;
+    margin-right: 0.25rem;
+}
+
+.form_title span {
+    color: #F66A6A;
+}
+
+.form_wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding-bottom: 3.75rem;
+}

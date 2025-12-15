@@ -15,3 +15,9 @@
     background-color: #FFFFFF;
     width: 100%;
 }
+
+.signup_link {
+    display: block;
+    text-align: center;
+    margin-top: 0.75rem;
+}

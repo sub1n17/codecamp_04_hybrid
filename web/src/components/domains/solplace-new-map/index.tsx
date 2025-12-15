@@ -1,76 +1,3 @@
-// 'use client';
-
-// import Link from 'next/link';
-// import { ButtonFull } from '../../commons/button';
-// import { InputRound } from '../../commons/input';
-// import { MapNew } from '../../commons/map';
-// import style from './styles.module.css';
-// import { useEffect, useState } from 'react';
-
-// export default function SolPlaceNewMap() {
-//     const [address, setAddress] = useState('서울특별시 중구 세종대로 110');
-//     const [location, setLocation] = useState({
-//         lat: 37.5662952,
-//         lng: 126.9779451,
-//     });
-
-//     // 주소 검색 버튼 클릭
-//     const handleSearchAddress = () => {
-//         const layer = document.getElementById('postLayer');
-
-//         new window.daum.Postcode({
-//             oncomplete: function (data) {
-//                 setAddress(data.address);
-//                 layer.style.display = 'none';
-//             },
-//             onclose: function () {
-//                 layer.style.display = 'none';
-//             },
-//         }).embed(layer);
-
-//         layer.style.display = 'block';
-//     };
-
-//     // 주소 검색 버튼
-//     useEffect(() => {
-//         const script = document.createElement('script');
-//         script.src = '//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js';
-//         script.async = true;
-//         document.body.appendChild(script);
-//     }, []);
-
-//     return (
-//         <>
-//             <div id="postLayer"></div>
-
-//             <div className={style.mapWrapper}>
-//                 <MapNew
-//                     address={address}
-//                     setAddress={setAddress}
-//                     setLocation={setLocation}
-//                     location={location}
-//                 ></MapNew>
-//             </div>
-//             <div className={style.flexWrapper}>
-//                 <div>
-//                     <InputRound value={address}></InputRound>
-//                     <button type="button" onClick={handleSearchAddress} style={{ height: '40px' }}>
-//                         주소 검색
-//                     </button>
-//                 </div>
-//                 <Link
-//                     href={`/solplace/new?lat=${location.lat}&lng=${
-//                         location.lng
-//                     }&address=${encodeURIComponent(address)}`}
-//                     shallow
-//                 >
-//                     <ButtonFull text={'이 위치로 등록'}></ButtonFull>
-//                 </Link>
-//             </div>
-//         </>
-//     );
-// }
-
 'use client';
 
 import { useEffect } from 'react';
@@ -81,6 +8,7 @@ import { ButtonFull } from '../../commons/button';
 import { InputRound } from '../../commons/input';
 import { MapNew } from '../../commons/map';
 import style from './styles.module.css';
+import { useDeviceSetting } from '@/src/commons/settings/device-setting/hook';
 
 declare const window: Window & {
     daum: any;

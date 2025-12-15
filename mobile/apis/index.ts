@@ -1,20 +1,29 @@
+import { useDeviceAuth } from './use-device-auth';
+import { useDeviceLayout } from './use-device-layout';
+import { useDeviceLocation } from './use-device-location';
+import { useDeviceNotifications } from './use-device-notifications';
+import { useDeviceRouting } from './use-device-routing';
+import { useDeviceSystem } from './use-device-system';
+
 export const useApis = (webviewRef) => {
     // 응답
     const onResponse = (result) => {
         webviewRef.current?.postMessage(JSON.stringify(result));
     };
 
-    // 요청
-    const onRequest = (request) => {
-        switch (request.query) {
-            case 'CreatePlace': {
-                const formData = request.payload;
-                onResponse({
-                    CreatePlace: formData,
-                });
-                break;
-            }
-        }
+    const APIS = {
+        ...useDeviceSystem(onResponse),
+        ...useDeviceLocation(onResponse),
+        ...useDeviceNotifications(onResponse),
+        ...useDeviceLayout(onResponse),
+        ...useDeviceRouting(onResponse),
+        ...useDeviceAuth(onResponse),
     };
-    return { onResponse, onRequest };
+
+    // 요청
+    const onRequest = (query, variables) => {
+        APIS[query](variables);
+    };
+
+    return { onResponse, onRequest, layout: APIS.layout };
 };

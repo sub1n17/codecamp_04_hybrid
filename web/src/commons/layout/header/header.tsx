@@ -27,8 +27,13 @@ const HeaderBase = ({ title, hasLogo, hasBack, isTransParent }: IHeaderBaseProps
                 }}
             >
                 {hasLogo && (
+                    // <Image src={imgSrc.logo} alt="logo" width={52} height={32}></Image>
+
+                    // <div className={style.logo_img}>
+                    //     <Image src={imgSrc.logo} alt="logo" fill></Image>
+                    // </div>
                     <div className={style.logo_img}>
-                        <Image src={imgSrc.logo} alt="logo" fill></Image>
+                        <Image src={imgSrc.logo} alt="logo" width={52} height={32}></Image>
                     </div>
                 )}
 

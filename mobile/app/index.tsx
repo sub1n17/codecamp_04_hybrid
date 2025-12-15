@@ -8,23 +8,27 @@ import { useApis } from '@/apis';
 
 export default function Index() {
     const webviewRef = useRef<WebView>(null);
-    const { onRequest } = useApis(webviewRef);
+    const { onRequest, layout } = useApis(webviewRef);
+
     return (
-        <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }} edges={['top', 'bottom']}>
-            <StatusBar style="light"></StatusBar>
+        <SafeAreaView
+            style={{ flex: 1, backgroundColor: layout.notchBackgroundColor }}
+            edges={layout.safeAreaViewEdge}
+        >
+            <StatusBar style={layout.statusBarStyle}></StatusBar>
             <WebView
                 javaScriptEnabled
                 domStorageEnabled
                 geolocationEnabled
                 originWhitelist={['*']}
-                source={{ uri: 'http://192.168.55.42:3000/solplace-logs/new/map' }}
+                source={{ uri: 'http://192.168.55.42:3000/' }}
                 ref={webviewRef}
                 onMessage={(event) => {
                     if (!event.nativeEvent.data) return;
                     const request = JSON.parse(event.nativeEvent.data);
 
                     // 웹에게 API 응답 보내기
-                    onRequest(request);
+                    onRequest(request.query, request.variables);
                 }}
             ></WebView>
         </SafeAreaView>

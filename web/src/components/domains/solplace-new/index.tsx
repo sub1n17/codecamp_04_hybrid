@@ -20,6 +20,7 @@ export default function SolPlaceNew() {
     const lat = searchParams.get('lat') || '37.5662952';
     const lng = searchParams.get('lng') || '126.9779451';
     const address = searchParams.get('address') || '플레이스 주소 입력';
+    // const address = searchParams.get('address') || '서울특별시 중구 세종대로 110';
 
     return (
         <>
@@ -44,7 +45,7 @@ export default function SolPlaceNew() {
                         <div className={style.form_title}>플레이스 주소</div>
                         <AddressLink
                             href={`/solplace-logs/new/map?lat=${lat}&lng=${lng}&address=${encodeURIComponent(
-                                address
+                                '서울특별시 중구 세종대로 110'
                             )}`}
                             linkText={address || '플레이스 주소 입력'}
                         ></AddressLink>
@@ -60,6 +61,7 @@ export default function SolPlaceNew() {
                             className={style.form_textarea}
                         ></Textarea>
                     </div>
+
                     <Footer text={'로그 등록'}></Footer>
                 </Form>
             </main>

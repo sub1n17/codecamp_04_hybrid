@@ -80,3 +80,40 @@
     color: #333333;
     line-height: 20px;
 }
+
+/* 이미지 풀스크린 */
+.fullscreen_wrapper {
+    width: 100vw;
+    height: 100vh;
+    background-color: black;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9998;
+    overflow: hidden;
+    /* 🚨 핵심 ①: wrapper는 스크롤 금지 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.imageClose_img {
+    position: fixed;
+    top: 1.25rem;
+    right: 1.25rem;
+    width: 1.5rem;
+    height: 1.5rem;
+    z-index: 10000;
+}
+
+
+.placeImage_img {
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    /* 🚨 핵심 ②: 이미지 영역만 스크롤/줌 가능 */
+    touch-action: pinch-zoom;
+    /* 🚨 핵심 ③: 핀치줌 허용 */
+    position: relative;
+    z-index: 1;
+}

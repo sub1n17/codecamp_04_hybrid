@@ -1,3 +1,5 @@
+'use client';
+
 import style from './styles.module.css';
 
 interface IButtonBaseProps {
