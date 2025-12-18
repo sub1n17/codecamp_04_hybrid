@@ -7,264 +7,48 @@ import { useRoutingSetting } from '@/src/commons/settings/routing-setting/hook';
 import { useEffect, useRef, useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { ButtonCircle } from '../../commons/button';
-
-const mockData = [
-    {
-        image: '/images/placeExample01.png',
-        title: '111Bramble & Brioche 한남점',
-        contents: '한국에서 느낄 수 없었던 영국 감성의',
-        address: '서울시 용산구',
-    },
-    {
-        image: '/images/placeExample02.png',
-        title: '222오브레크 경주',
-        contents: '티라미수에 밤보다 더 어울리는',
-        address: '경북 경주시',
-    },
-    {
-        image: '/images/placeExample03.png',
-        title: '333미드나잇 딤섬',
-        contents: '너무 편안한 분위기의 딤섬 맛집입니다',
-        address: '서울시 성동구',
-    },
-    {
-        image: '/images/placeExample04.png',
-        title: '444모찌 비주',
-        contents: '세상에 없던 찹쌀떡 맛집',
-        address: '서울시 마포구',
-    },
-    {
-        image: '/images/placeExample01.png',
-        title: '555Bramble & Brioche 한남점',
-        contents: '한국에서 느낄 수 없었던 영국 감성의',
-        address: '서울시 용산구',
-    },
-    {
-        image: '/images/placeExample02.png',
-        title: '666오브레크 경주',
-        contents: '티라미수에 밤보다 더 어울리는',
-        address: '경북 경주시',
-    },
-    {
-        image: '/images/placeExample03.png',
-        title: '777미드나잇 딤섬',
-        contents: '너무 편안한 분위기의 딤섬 맛집입니다',
-        address: '서울시 성동구',
-    },
-    {
-        image: '/images/placeExample04.png',
-        title: '888모찌 비주',
-        contents: '세상에 없던 찹쌀떡 맛집',
-        address: '서울시 마포구',
-    },
-    {
-        image: '/images/placeExample04.png',
-        title: '999모찌 비주',
-        contents: '세상에 없던 찹쌀떡 맛집',
-        address: '서울시 마포구',
-    },
-    {
-        image: '/images/placeExample04.png',
-        title: '101010모찌 비주',
-        contents: '세상에 없던 찹쌀떡 맛집',
-        address: '서울시 마포구',
-    },
-    {
-        image: '/images/placeExample04.png',
-        title: '11모찌 비주',
-        contents: '세상에 없던 찹쌀떡 맛집',
-        address: '서울시 마포구',
-    },
-    {
-        image: '/images/placeExample01.png',
-        title: '555Bramble & Brioche 한남점',
-        contents: '한국에서 느낄 수 없었던 영국 감성의',
-        address: '서울시 용산구',
-    },
-    {
-        image: '/images/placeExample02.png',
-        title: '666오브레크 경주',
-        contents: '티라미수에 밤보다 더 어울리는',
-        address: '경북 경주시',
-    },
-    {
-        image: '/images/placeExample03.png',
-        title: '777미드나잇 딤섬',
-        contents: '너무 편안한 분위기의 딤섬 맛집입니다',
-        address: '서울시 성동구',
-    },
-    {
-        image: '/images/placeExample04.png',
-        title: '888모찌 비주',
-        contents: '세상에 없던 찹쌀떡 맛집',
-        address: '서울시 마포구',
-    },
-    {
-        image: '/images/placeExample04.png',
-        title: '999모찌 비주',
-        contents: '세상에 없던 찹쌀떡 맛집',
-        address: '서울시 마포구',
-    },
-    {
-        image: '/images/placeExample04.png',
-        title: '101010모찌 비주',
-        contents: '세상에 없던 찹쌀떡 맛집',
-        address: '서울시 마포구',
-    },
-    {
-        image: '/images/placeExample04.png',
-        title: '11모찌 비주',
-        contents: '세상에 없던 찹쌀떡 맛집',
-        address: '서울시 마포구',
-    },
-    {
-        image: '/images/placeExample01.png',
-        title: '555Bramble & Brioche 한남점',
-        contents: '한국에서 느낄 수 없었던 영국 감성의',
-        address: '서울시 용산구',
-    },
-    {
-        image: '/images/placeExample02.png',
-        title: '666오브레크 경주',
-        contents: '티라미수에 밤보다 더 어울리는',
-        address: '경북 경주시',
-    },
-    {
-        image: '/images/placeExample03.png',
-        title: '777미드나잇 딤섬',
-        contents: '너무 편안한 분위기의 딤섬 맛집입니다',
-        address: '서울시 성동구',
-    },
-    {
-        image: '/images/placeExample04.png',
-        title: '888모찌 비주',
-        contents: '세상에 없던 찹쌀떡 맛집',
-        address: '서울시 마포구',
-    },
-    {
-        image: '/images/placeExample04.png',
-        title: '999모찌 비주',
-        contents: '세상에 없던 찹쌀떡 맛집',
-        address: '서울시 마포구',
-    },
-    {
-        image: '/images/placeExample04.png',
-        title: '101010모찌 비주',
-        contents: '세상에 없던 찹쌀떡 맛집',
-        address: '서울시 마포구',
-    },
-    {
-        image: '/images/placeExample04.png',
-        title: '11모찌 비주',
-        contents: '세상에 없던 찹쌀떡 맛집',
-        address: '서울시 마포구',
-    },
-    {
-        image: '/images/placeExample01.png',
-        title: '555Bramble & Brioche 한남점',
-        contents: '한국에서 느낄 수 없었던 영국 감성의',
-        address: '서울시 용산구',
-    },
-    {
-        image: '/images/placeExample02.png',
-        title: '666오브레크 경주',
-        contents: '티라미수에 밤보다 더 어울리는',
-        address: '경북 경주시',
-    },
-    {
-        image: '/images/placeExample03.png',
-        title: '777미드나잇 딤섬',
-        contents: '너무 편안한 분위기의 딤섬 맛집입니다',
-        address: '서울시 성동구',
-    },
-    {
-        image: '/images/placeExample04.png',
-        title: '888모찌 비주',
-        contents: '세상에 없던 찹쌀떡 맛집',
-        address: '서울시 마포구',
-    },
-    {
-        image: '/images/placeExample04.png',
-        title: '999모찌 비주',
-        contents: '세상에 없던 찹쌀떡 맛집',
-        address: '서울시 마포구',
-    },
-    {
-        image: '/images/placeExample04.png',
-        title: '101010모찌 비주',
-        contents: '세상에 없던 찹쌀떡 맛집',
-        address: '서울시 마포구',
-    },
-    {
-        image: '/images/placeExample04.png',
-        title: '11모찌 비주',
-        contents: '세상에 없던 찹쌀떡 맛집',
-        address: '서울시 마포구',
-    },
-    {
-        image: '/images/placeExample01.png',
-        title: '555Bramble & Brioche 한남점',
-        contents: '한국에서 느낄 수 없었던 영국 감성의',
-        address: '서울시 용산구',
-    },
-    {
-        image: '/images/placeExample02.png',
-        title: '666오브레크 경주',
-        contents: '티라미수에 밤보다 더 어울리는',
-        address: '경북 경주시',
-    },
-    {
-        image: '/images/placeExample03.png',
-        title: '777미드나잇 딤섬',
-        contents: '너무 편안한 분위기의 딤섬 맛집입니다',
-        address: '서울시 성동구',
-    },
-    {
-        image: '/images/placeExample04.png',
-        title: '888모찌 비주',
-        contents: '세상에 없던 찹쌀떡 맛집',
-        address: '서울시 마포구',
-    },
-    {
-        image: '/images/placeExample04.png',
-        title: '999모찌 비주',
-        contents: '세상에 없던 찹쌀떡 맛집',
-        address: '서울시 마포구',
-    },
-    {
-        image: '/images/placeExample04.png',
-        title: '101010모찌 비주',
-        contents: '세상에 없던 찹쌀떡 맛집',
-        address: '서울시 마포구',
-    },
-    {
-        image: '/images/placeExample04.png',
-        title: '11모찌 비주',
-        contents: '세상에 없던 찹쌀떡 맛집',
-        address: '서울시 마포구',
-    },
-];
+import { gql, useQuery } from '@apollo/client';
 
 const imgSrc = {
     location: '/icons/location.png',
     placeAdd: '/icons/place_add.png',
     footerLocation: '/icons/footer_location.png',
     footerMypage: '/icons/footer_mypage.png',
+    defaultPlaceImg: '/images/defaultPlaceImg.jpg',
 };
+
+const FETCH_PLACES = gql`
+    query fetchSolplaceLogs($page: Int) {
+        fetchSolplaceLogs(page: $page) {
+            id
+            title
+            contents
+            addressCity
+            addressTown
+            images
+        }
+    }
+`;
 
 export default function SolPlaceList({ isPlace }) {
     const { onRouterPush } = useRoutingSetting();
 
-    const [list, setList] = useState(mockData.slice(0, 4));
+    // 게시글 조회
+    const { data } = useQuery(FETCH_PLACES, {
+        variables: { page: 1 },
+    });
+
+    const [placeCount, setPlaceCount] = useState(4);
+    const list = data?.fetchSolplaceLogs.slice(0, placeCount) ?? [];
+
+    // 무한 스크롤 (4개씩 게시글 더 보여주기)
     const onNext = () => {
-        setList((prev) => {
-            const newList = mockData.slice(prev.length, prev.length + 4);
-            return [...prev, ...newList];
-        });
+        setPlaceCount((prev) => prev + 4);
     };
 
+    // 당겨서 새로고침 (4개 보여주기)
     const onRefresh = () => {
-        setList(mockData.slice(0, 4));
+        setPlaceCount(4);
         // alert('리프레시 완료');
     };
 
@@ -272,11 +56,11 @@ export default function SolPlaceList({ isPlace }) {
         <>
             <main className={style.place_wrapper}>
                 <InfiniteScroll
-                    hasMore={list.length < mockData.length}
+                    hasMore={list.length < (data?.fetchSolplaceLogs.length ?? 0)}
                     next={onNext}
                     loader={<div>로딩중</div>}
                     dataLength={list.length}
-                    // pull-to-refresh
+                    // pull-to-refresh 새로고침
                     pullDownToRefresh={true}
                     refreshFunction={onRefresh}
                     pullDownToRefreshThreshold={100}
@@ -284,16 +68,24 @@ export default function SolPlaceList({ isPlace }) {
                     <div className={style.place_list}>
                         {list.map((el, index) => (
                             <Link
-                                href={'/solplace-logs/1'}
+                                href={`/solplace-logs/${el.id}`}
                                 key={`${el}_${index}`}
                                 className={style.list_wrapper}
                                 onClick={(e) => {
                                     e.preventDefault();
-                                    onRouterPush('/solplace-logs/1');
+                                    onRouterPush(`/solplace-logs/${el.id}`);
                                 }}
                             >
                                 <div className={style.place_img}>
-                                    <Image src={el.image} alt="img" fill></Image>
+                                    <Image
+                                        src={
+                                            el.images?.[0]
+                                                ? `https://storage.googleapis.com/${el.images[0]}`
+                                                : imgSrc.defaultPlaceImg
+                                        }
+                                        alt="img"
+                                        fill
+                                    />
                                 </div>
                                 <div>
                                     <div className={style.title}>{el.title} </div>
@@ -303,7 +95,9 @@ export default function SolPlaceList({ isPlace }) {
                                     <div className={style.location_img}>
                                         <Image src={imgSrc.location} alt="location" fill></Image>
                                     </div>
-                                    <div className={style.address}>{el.address} </div>
+                                    <div className={style.address}>
+                                        {el.addressCity} {el.addressTown}
+                                    </div>
                                 </div>
                             </Link>
                         ))}

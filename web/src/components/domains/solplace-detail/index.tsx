@@ -2,11 +2,17 @@
 
 import Image from 'next/image';
 import style from './styles.module.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDeviceSetting } from '@/src/commons/settings/device-setting/hook';
+import { gql, useQuery } from '@apollo/client';
+import { useParams } from 'next/navigation';
+import { webviewLog } from '@/src/commons/libraries/webview-log';
+import { Map } from 'react-kakao-maps-sdk';
+import { MapDetail } from '../../commons/map';
 
 const imgSrc = {
-    placeImage: '/images/placeImage.png',
+    placeImage: '/images/defaultPlaceImg.jpg',
+    // placeImage: '/images/placeImage.png',
     edit: '/icons/edit.png',
     location: '/icons/location.png',
     mapDown: '/icons/mapDown.png',
@@ -15,7 +21,33 @@ const imgSrc = {
     imageClose: '/images/image_close.png',
 };
 
+const FETCH_PLACE = gql`
+    query fetchSolplaceLog($id: ID!) {
+        fetchSolplaceLog(id: $id) {
+            id
+            title
+            contents
+            address
+            lat
+            lng
+            images
+        }
+    }
+`;
+
 export default function SolPlaceDetail() {
+    // 조회하기
+    useEffect(() => {}, []);
+
+    const params = useParams();
+    const { data } = useQuery(FETCH_PLACE, {
+        variables: {
+            id: params.solplaceLogId,
+        },
+    });
+    const placeLat = data?.fetchSolplaceLog.lat;
+    const placeLng = data?.fetchSolplaceLog.lng;
+
     const { fetchApp } = useDeviceSetting();
 
     // 이미지 풀스크린 상태
@@ -79,26 +111,43 @@ export default function SolPlaceDetail() {
                 <div>
                     {/* 이미지 */}
                     <div className={style.image_wrapper}>
-                        <div onClick={onclickFullScreen}>
-                            <Image src={imgSrc.placeImage} alt="placeImage" fill></Image>
-                        </div>
+                        {data?.fetchSolplaceLog.images[0] ? (
+                            data?.fetchSolplaceLog.images.map((el) => (
+                                <div onClick={onclickFullScreen} key={`${el}`}>
+                                    <Image src={el} alt="placeImage" fill></Image>
+                                </div>
+                            ))
+                        ) : (
+                            // 이미지 없을 경우 기본 이미지 보여주기
+                            <div onClick={onclickFullScreen}>
+                                <Image
+                                    src={imgSrc.placeImage}
+                                    alt="placeImage"
+                                    fill
+                                    style={{ objectFit: 'cover' }}
+                                ></Image>
+                            </div>
+                        )}
                     </div>
                     <div className={style.contents_wrapper}>
-                        {/* 주소 */}
                         <div className={style.address_wrapper}>
+                            {/* 제목 */}
                             <div className={style.title_wrapper}>
-                                <div className={style.address_title}>Bramble & Brioche 한남점</div>
+                                <div className={style.address_title}>
+                                    {data?.fetchSolplaceLog.title}
+                                </div>
                                 <button className={style.edit_img}>
                                     <Image src={imgSrc.edit} alt="수정하기" fill></Image>
                                 </button>
                             </div>
+                            {/* 주소 */}
                             <div>
                                 <div className={style.addressDetail_wrapper}>
                                     <div className={style.location_img}>
                                         <Image src={imgSrc.location} alt="주소" fill></Image>
                                     </div>
                                     <div className={style.addressDetail}>
-                                        서울특별시 용산구 이태원로49길 24-14
+                                        {data?.fetchSolplaceLog.address}
                                     </div>
                                     <div>
                                         {/* 지도 보기 */}
@@ -121,17 +170,17 @@ export default function SolPlaceDetail() {
                                 </div>
                                 {mapToggle && (
                                     <div className={style.map_wrapper}>
-                                        <Image src={imgSrc.mapExample} alt="지도" fill></Image>
+                                        <MapDetail
+                                            placeLat={placeLat}
+                                            placeLng={placeLng}
+                                        ></MapDetail>
+                                        {/* <Image src={imgSrc.mapExample} alt="지도" fill></Image> */}
                                     </div>
                                 )}
                             </div>
                         </div>
                         {/* 내용 */}
-                        <div className={style.contents}>
-                            Bramble & Brioche는 하루를 천천히 시작하고 싶은 사람들을 위한 아늑한
-                            브런치 카페예요. 바쁜 일상에서 잠깐 벗어나, 따뜻한 공간에서 여유를
-                            느끼고 싶다면 이곳이 제격이에요.
-                        </div>
+                        <div className={style.contents}>{data?.fetchSolplaceLog.contents}</div>
                     </div>
                 </div>
             )}

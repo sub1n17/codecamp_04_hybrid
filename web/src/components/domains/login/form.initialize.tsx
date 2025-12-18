@@ -77,6 +77,11 @@ export const useInitializeLogIn = () => {
             const accessToken = loginResult.data.login.accessToken;
             const refreshToken = loginResult.data.login.refreshToken;
 
+            // zustand에 accessToken 저장
+            if (accessToken) {
+                setAccessToken(accessToken);
+            }
+
             // RN에 accessToken, refreshToken 저장 API 요청하기
             // (결과가 반드시 필요한 비동기만 await, await 없어도 요청 보내고 다음 코드를 실행했다가 응답이 오면 그때 RN에서는 그때 토큰을 저장함, 토큰 저장될 때까지 안 기다려야 페이지 이동됨)
             fetchApp({
@@ -95,20 +100,11 @@ export const useInitializeLogIn = () => {
                 Modal.error({
                     centered: true,
                     title: '로그인 실패',
-                    content:
-                        error.graphQLErrors[0]?.message ??
-                        error.message ??
-                        '로그인에 실패했습니다.',
+                    content: error.graphQLErrors?.[0]?.message ?? '잠시 후 다시 시도해주세요.',
                     width: '20rem',
                 });
                 return;
             }
-            Modal.error({
-                centered: true,
-                title: '오류',
-                content: '네트워크 오류가 발생했습니다.',
-                width: '20rem',
-            });
         }
     };
 

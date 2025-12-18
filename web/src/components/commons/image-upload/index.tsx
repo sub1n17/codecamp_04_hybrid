@@ -1,20 +1,20 @@
 'use client';
 
-import { ChangeEvent, Dispatch, SetStateAction, useRef, useState } from 'react';
+import { ChangeEvent, useRef } from 'react';
 import Image from 'next/image';
 import style from './styles.module.css';
+import { useSolPlaceNewStore } from '@/src/commons/stores/solplaceNew-store';
 
 const imgSrc = {
     add_img: '/images/add_img.png',
 };
 
-interface ImageUploadProps {
-    setFile: Dispatch<SetStateAction<File[]>>;
-}
-
-export default function ImageUpload({ setFile }: ImageUploadProps) {
+export default function ImageUpload() {
     // 미리보기용 이미지
-    const [imgUrl, setImgUrl] = useState<string[]>([]);
+    // const [imgUrl, setImgUrl] = useState<string[]>([]);
+
+    // zustand
+    const { previewUrls, setPreviewUrls, setFiles } = useSolPlaceNewStore();
 
     // 이미지 추가하기
     const onChangeFile = (event: ChangeEvent<HTMLInputElement>) => {
@@ -31,8 +31,10 @@ export default function ImageUpload({ setFile }: ImageUploadProps) {
         fileReader.onload = (event) => {
             const result = event.target?.result;
             if (typeof result === 'string') {
-                setImgUrl((prev) => [...prev, result]);
-                setFile((prev) => [...prev, file]);
+                setPreviewUrls(result);
+                setFiles(file);
+                // setImgUrl((prev) => [...prev, result]);
+                // setFile((prev) => [...prev, file]);
             }
         };
     };
@@ -61,10 +63,10 @@ export default function ImageUpload({ setFile }: ImageUploadProps) {
                     onClick={onClickUploadImage}
                     style={{ flexShrink: 0 }}
                 ></Image>
-                {imgUrl.map((el, index) => (
+                {previewUrls.map((el, index) => (
                     <div className={style.upload_img} key={`${el}_${index}`}>
                         <Image
-                            src={imgUrl[index]}
+                            src={el}
                             alt="img"
                             width={100}
                             height={100}

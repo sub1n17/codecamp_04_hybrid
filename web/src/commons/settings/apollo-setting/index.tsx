@@ -23,17 +23,18 @@ export default function ApolloSetting(props: IApolloSetting) {
                     return fromPromise(
                         // graphql-request로 쿼리 요청 후 재발급 받은 accessToken 저장하기
                         getAccessToken().then((newAccessToken) => {
-                            if (newAccessToken && typeof newAccessToken === 'string') {
-                                setAccessToken(newAccessToken);
-                                // 실패한 쿼리의 정보 수정하기, 새 토큰으로 덮어씌우기
-                                operation.setContext({
-                                    headers: {
-                                        ...operation.getContext().headers,
-                                        Authorization: `Bearer ${newAccessToken}`,
-                                    },
-                                    credentials: 'include',
-                                });
-                            }
+                            if (!newAccessToken) return;
+
+                            setAccessToken(newAccessToken);
+                            // 실패한 쿼리의 정보 수정하기, 새 토큰으로 덮어씌우기
+                            operation.setContext({
+                                headers: {
+                                    ...operation.getContext().headers,
+                                    Authorization: `Bearer ${newAccessToken}`,
+                                },
+                                // credentials: 'include',
+                            });
+                            return newAccessToken;
                         })
                     ).flatMap(() => forward(operation)); // 실패한 쿼리를 다시 실행
                 }

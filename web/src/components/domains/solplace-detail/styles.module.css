@@ -1,9 +1,8 @@
 .image_wrapper {
-    height: 480px;
+    height: 30rem;
     position: relative;
     margin-right: calc(-1.25rem);
     margin-left: calc(-1.25rem);
-
 }
 
 .contents_wrapper {
@@ -28,13 +27,13 @@
     position: relative;
 }
 
-.map_wrapper {
+/* .map_wrapper {
     height: 160px;
     border-radius: 20px;
     position: relative;
     margin-top: 8px;
     transition: all 0.4s;
-}
+} */
 
 .address_wrapper {
     margin-bottom: 1rem;

@@ -2,14 +2,14 @@
 
 import { useEffect, useRef } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { Map } from 'react-kakao-maps-sdk';
+import { Map, MapMarker } from 'react-kakao-maps-sdk';
 import style from './styles.module.css';
 
 declare const window: Window & {
     kakao: any;
 };
 
-function MapBase({ address, location }) {
+function MapBase({ address, location, placeLat, placeLng }) {
     const mapRef = useRef(null);
     const router = useRouter();
     const searchParams = useSearchParams();
@@ -18,10 +18,18 @@ function MapBase({ address, location }) {
     const lat = searchParams.get('lat');
     const lng = searchParams.get('lng');
 
-    const initLocation = {
-        lat: lat ? Number(lat) : location.lat,
-        lng: lng ? Number(lng) : location.lng,
-    };
+    const initLocation =
+        // 게시글 상세일 때, 조회된 위도경도 값 사용
+        placeLat && placeLng
+            ? {
+                  lat: Number(placeLat),
+                  lng: Number(placeLng),
+              }
+            : // 작성/수정할 때, 샬로우라우팅 된 url의 위도경도 값 사용
+              {
+                  lat: lat ? Number(lat) : location.lat,
+                  lng: lng ? Number(lng) : location.lng,
+              };
 
     // 주소 → 좌표 변환 (지도 이동 없이 URL만 갱신)
     useEffect(() => {
@@ -71,7 +79,22 @@ function MapBase({ address, location }) {
         });
     };
 
-    return (
+    return placeLat && placeLng ? (
+        <div className={style.detailMapWrapper}>
+            <Map ref={mapRef} center={initLocation} level={3} className={style.mapElement}>
+                <MapMarker
+                    position={{
+                        lat: Number(placeLat),
+                        lng: Number(placeLng),
+                    }}
+                    image={{
+                        src: '/images/mapMarker.png',
+                        size: { width: 22, height: 31 },
+                    }}
+                />
+            </Map>
+        </div>
+    ) : (
         <div className={style.mapWrapper}>
             <Map
                 ref={mapRef}
@@ -91,5 +114,9 @@ export function MapNew(props) {
 }
 
 export function MapEdit(props) {
+    return <MapBase {...props} />;
+}
+
+export function MapDetail(props) {
     return <MapBase {...props} />;
 }

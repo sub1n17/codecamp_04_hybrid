@@ -12,6 +12,7 @@ import ImageUpload from '../../commons/image-upload';
 import { AddressLink } from '../../commons/link';
 import { useSearchParams } from 'next/navigation';
 import { useState } from 'react';
+import { useSolPlaceNewStore } from '@/src/commons/stores/solplaceNew-store';
 
 export default function SolPlaceNew() {
     const searchParams = useSearchParams();
@@ -20,9 +21,12 @@ export default function SolPlaceNew() {
     const address = searchParams.get('address') || '플레이스 주소 입력';
 
     // 서버 업로드용 이미지
-    const [file, setFile] = useState<File[]>([]);
+    // const [file, setFile] = useState<File[]>([]);
 
-    const { onClickSubmit } = useInitializeNew({ file });
+    const { onClickSubmit } = useInitializeNew();
+
+    // zustand
+    const { title, setTitle, contents, setContents } = useSolPlaceNewStore();
 
     return (
         <>
@@ -32,7 +36,7 @@ export default function SolPlaceNew() {
                     onClickSubmit={onClickSubmit}
                     className={style.form_wrapper}
                 >
-                    <ImageUpload setFile={setFile}></ImageUpload>
+                    <ImageUpload></ImageUpload>
 
                     <div>
                         <div className={style.form_title}>
@@ -41,6 +45,8 @@ export default function SolPlaceNew() {
                         <InputNormal
                             keyname={'title'}
                             placeholder={'플레이스 이름을 입력해 주세요. (1자 이상)'}
+                            value={title}
+                            onChange={(event) => setTitle(event?.target.value)}
                         ></InputNormal>
                     </div>
                     <div>
@@ -61,6 +67,8 @@ export default function SolPlaceNew() {
                             placeholder={'플레이스 내용을 입력해 주세요. (1자 이상)'}
                             keyname={'contents'}
                             className={style.form_textarea}
+                            value={contents}
+                            onChange={(event) => setContents(event?.target.value)}
                         ></Textarea>
                     </div>
                     <Footer text={'로그 등록'}></Footer>

@@ -2,28 +2,39 @@
 
 import { useFormContext } from 'react-hook-form';
 import style from './styles.module.css';
+import { ChangeEvent } from 'react';
 
-function InputBase({ ...rest }) {
+interface InputBaseProps {
+    placeholder?: string;
+    keyname?: string;
+    className?: string;
+    value?: string;
+    onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
+}
+
+function InputBase({ placeholder, keyname, className, value, onChange }: InputBaseProps) {
     // const { register, formState } = useFormContext();
     // const error = formState.errors?.[rest.keyname]?.message?.toString();
 
     const formContext = useFormContext();
     const register = formContext?.register;
-    const error = formContext?.formState?.errors?.[rest.keyname]?.message?.toString();
-
-    // 지도 인풋
+    const error = keyname
+        ? formContext?.formState?.errors?.[keyname]?.message?.toString()
+        : undefined;
 
     return (
         <>
-            {register ? (
+            {formContext && keyname ? (
                 <input
                     type="text"
-                    placeholder={rest.placeholder}
-                    {...register(rest.keyname)}
-                    className={rest.className}
+                    placeholder={placeholder}
+                    {...register(keyname)}
+                    className={className}
+                    value={value}
+                    onChange={onChange}
                 />
             ) : (
-                <input type="text" className={rest.className} value={rest.value} readOnly></input>
+                <input type="text" className={className} value={value} readOnly></input>
             )}
 
             {error && <div className={style.error_txt}>{error}</div>}
@@ -31,11 +42,11 @@ function InputBase({ ...rest }) {
     );
 }
 
-export function InputNormal(rest) {
+export function InputNormal(rest: InputBaseProps) {
     return <InputBase {...rest} className={style.input_normal}></InputBase>;
 }
 
-export function InputRound(rest) {
+export function InputRound(rest: InputBaseProps) {
     return <InputBase {...rest} className={style.input_round}></InputBase>;
 }
 

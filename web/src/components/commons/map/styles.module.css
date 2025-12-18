@@ -1,6 +1,14 @@
 .mapWrapper {
     width: 100%;
-    height: 37.750rem;
+    height: 37.75rem;
+    position: relative;
+}
+
+/* 게시글 상세일 때 */
+.detailMapWrapper {
+    height: 10rem;
+    border-radius: 1.25rem;
+    margin-top: 0.5rem;
     position: relative;
 }
 
