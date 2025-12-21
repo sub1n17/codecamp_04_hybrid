@@ -11,7 +11,7 @@ import { AddressLink } from '../../commons/link';
 import { editSchema } from './schema';
 import { useInitializeEdit } from './form.initialize';
 import { gql, useQuery } from '@apollo/client';
-import { useParams, useRouter } from 'next/navigation';
+import { useParams } from 'next/navigation';
 
 const FETCH_PLACE = gql`
     query fetchSolplaceLog($id: ID!) {
@@ -32,14 +32,13 @@ export default function SolPlaceDetailEdit() {
 
     // 조회하기
     const params = useParams();
-    const router = useRouter();
+    // const router = useRouter();
 
     const { data } = useQuery(FETCH_PLACE, {
         variables: {
             id: params.solplaceLogId,
         },
     });
-    // if (!data?.fetchSolplaceLog) return null;
 
     const placeAddress = data?.fetchSolplaceLog.address;
     const placeLat = data?.fetchSolplaceLog.lat;
@@ -52,19 +51,6 @@ export default function SolPlaceDetailEdit() {
               contents: data.fetchSolplaceLog.contents,
           }
         : {};
-
-    // 주소 변경 시 url 전달하기
-    const mapParams = new URLSearchParams({
-        from: 'edit',
-        id: String(params.solplaceLogId),
-        lat: String(placeLat),
-        lng: String(placeLng),
-        address: placeAddress,
-    });
-
-    const handleAddressClick = () => {
-        router.push(`/solplace-logs/new/map?${mapParams.toString()}`);
-    };
 
     return (
         <>
@@ -89,21 +75,13 @@ export default function SolPlaceDetailEdit() {
                     <div>
                         <div className={style.form_title}>플레이스 주소</div>
                         <AddressLink
-                            // href={`/solplace-logs/new/map?from=edit&id=${
-                            //     params.solplaceLogId
-                            // }&lat=${placeLat}&lng=${placeLng}&address=${encodeURIComponent(
-                            //     placeAddress
-                            // )}`}
-                            href={`/solplace-logs/new/map/?${mapParams.toString()}`}
+                            href={`/solplace-logs/${params.solplaceLogId}/edit/map?from=edit&id=${
+                                params.solplaceLogId
+                            }&lat=${placeLat}&lng=${placeLng}&address=${encodeURIComponent(
+                                placeAddress ?? ''
+                            )}`}
                             placeAddress={placeAddress}
                         ></AddressLink>
-                        {/* <button
-                            onClick={handleAddressClick}
-                            className={style.address_button}
-                            type="button"
-                        >
-                            <div>{placeAddress}</div>
-                        </button> */}
                     </div>
                     <div>
                         <div className={style.form_title}>

@@ -15,8 +15,8 @@ import { useSolPlaceNewStore } from '@/src/commons/stores/solplaceNew-store';
 
 export default function SolPlaceNew() {
     const searchParams = useSearchParams();
-    const lat = searchParams.get('lat') || '37.5662952';
-    const lng = searchParams.get('lng') || '126.9779451';
+    const lat = searchParams.get('lat');
+    const lng = searchParams.get('lng');
     const address = searchParams.get('address') || '플레이스 주소 입력';
 
     const { onClickSubmit } = useInitializeNew();
@@ -48,9 +48,14 @@ export default function SolPlaceNew() {
                     <div>
                         <div className={style.form_title}>플레이스 주소</div>
                         <AddressLink
-                            href={`/solplace-logs/new/map?lat=${lat}&lng=${lng}&address=${encodeURIComponent(
-                                '서울특별시 중구 세종대로 110'
-                            )}`}
+                            href={
+                                `/solplace-logs/new/map?from=new` +
+                                (lat ? `&lat=${lat}` : '') +
+                                (lng ? `&lng=${lng}` : '') +
+                                (address && address !== '플레이스 주소 입력'
+                                    ? `&address=${encodeURIComponent(address)}`
+                                    : '')
+                            }
                             linkText={address || '플레이스 주소 입력'}
                         ></AddressLink>
                     </div>

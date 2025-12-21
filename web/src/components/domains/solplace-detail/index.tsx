@@ -7,7 +7,7 @@ import { useDeviceSetting } from '@/src/commons/settings/device-setting/hook';
 import { gql, useQuery } from '@apollo/client';
 import { useParams } from 'next/navigation';
 import { webviewLog } from '@/src/commons/libraries/webview-log';
-import { Map } from 'react-kakao-maps-sdk';
+import { Map, MapMarker } from 'react-kakao-maps-sdk';
 import { MapDetail } from '../../commons/map';
 import Link from 'next/link';
 
@@ -184,10 +184,19 @@ export default function SolPlaceDetail() {
                                     </div>
                                     {mapToggle && (
                                         <div className={style.map_wrapper}>
-                                            <MapDetail
-                                                placeLat={placeLat}
-                                                placeLng={placeLng}
-                                            ></MapDetail>
+                                            <Map
+                                                center={{ lat: placeLat, lng: placeLng }}
+                                                level={3}
+                                                style={{ width: '100%', height: '100%' }}
+                                            >
+                                                <MapMarker
+                                                    position={{ lat: placeLat, lng: placeLng }}
+                                                    image={{
+                                                        src: '/images/mapMarker.png',
+                                                        size: { width: 22, height: 31 },
+                                                    }}
+                                                />
+                                            </Map>
                                         </div>
                                     )}
                                 </div>

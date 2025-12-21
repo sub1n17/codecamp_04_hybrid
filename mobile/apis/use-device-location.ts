@@ -4,7 +4,9 @@ export const useDeviceLocation = (onResponse) => {
     // 위치 권한 요청하기
     const fetchDeviceLocationForLatLngSet = async () => {
         const result = await Location.requestForegroundPermissionsAsync();
-        if (result.status === 'granted') {
+        const status = result.status;
+
+        if (status === 'granted') {
             // 허용했을 때
             const location = await Location.getCurrentPositionAsync({
                 accuracy: Location.Accuracy.BestForNavigation,
@@ -12,6 +14,7 @@ export const useDeviceLocation = (onResponse) => {
 
             onResponse({
                 fetchDeviceLocationForLatLngSet: {
+                    status: 'granted',
                     lat: location.coords.latitude,
                     lng: location.coords.longitude,
                 },
@@ -20,8 +23,9 @@ export const useDeviceLocation = (onResponse) => {
             // 거부했을 때
             onResponse({
                 fetchDeviceLocationForLatLngSet: {
-                    lat: 37.5662952,
-                    lng: 126.9779451,
+                    // lat: 37.5662952,
+                    // lng: 126.9779451,
+                    status: 'denied',
                 },
             });
         }
