@@ -9,9 +9,13 @@ const imgSrc = {
     add_img: '/images/add_img.png',
 };
 
-export default function ImageUpload() {
+interface ImageUploadProps {
+    isEdit: boolean;
+}
+
+export default function ImageUpload({ isEdit }: ImageUploadProps) {
     // zustand
-    const { previewUrls, setPreviewUrls, setFiles } = useSolPlaceNewStore();
+    const { previewUrls, setPreviewUrls, setFiles, existingImages } = useSolPlaceNewStore();
 
     // 이미지 추가하기
     const onChangeFile = (event: ChangeEvent<HTMLInputElement>) => {
@@ -58,6 +62,20 @@ export default function ImageUpload() {
                     onClick={onClickUploadImage}
                     style={{ flexShrink: 0 }}
                 ></Image>
+                {/* 기존 이미지 */}
+                {isEdit &&
+                    existingImages.map((el, index) => (
+                        <div className={style.upload_img} key={`${el}_${index}`}>
+                            <Image
+                                src={`https://storage.googleapis.com/${el}`}
+                                alt="img"
+                                width={100}
+                                height={100}
+                                style={{ aspectRatio: '1/1', objectFit: 'cover' }}
+                            ></Image>
+                        </div>
+                    ))}
+                {/* 새로 업로드한 이미지 */}
                 {previewUrls.map((el, index) => (
                     <div className={style.upload_img} key={`${el}_${index}`}>
                         <Image

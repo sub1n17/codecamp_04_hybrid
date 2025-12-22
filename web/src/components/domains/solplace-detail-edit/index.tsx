@@ -12,6 +12,8 @@ import { editSchema } from './schema';
 import { useInitializeEdit } from './form.initialize';
 import { gql, useQuery } from '@apollo/client';
 import { useParams } from 'next/navigation';
+import { useSolPlaceNewStore } from '@/src/commons/stores/solplaceNew-store';
+import { useEffect } from 'react';
 
 const FETCH_PLACE = gql`
     query fetchSolplaceLog($id: ID!) {
@@ -52,6 +54,14 @@ export default function SolPlaceDetailEdit() {
           }
         : {};
 
+    // 이미지 있으면 store에 저장
+    const { setExistingImages } = useSolPlaceNewStore();
+    useEffect(() => {
+        if (data?.fetchSolplaceLog.images) {
+            setExistingImages(data?.fetchSolplaceLog.images);
+        }
+    }, [data]);
+
     return (
         <>
             <main className={style.container}>
@@ -61,7 +71,7 @@ export default function SolPlaceDetailEdit() {
                     className={style.form_wrapper}
                     defaultValues={defaultValues}
                 >
-                    <ImageUpload></ImageUpload>
+                    <ImageUpload isEdit={true}></ImageUpload>
 
                     <div>
                         <div className={style.form_title}>

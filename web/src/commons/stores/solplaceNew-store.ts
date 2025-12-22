@@ -5,10 +5,12 @@ interface solPlaceNewStore {
     contents: string;
     files: File[];
     previewUrls: string[];
+    existingImages: string[];
     setTitle: (title: string) => void;
     setContents: (contents: string) => void;
     setFiles: (file: File) => void;
     setPreviewUrls: (previewUrls: string) => void;
+    setExistingImages: (images: string[]) => void;
 }
 
 export const useSolPlaceNewStore = create<solPlaceNewStore>((set) => ({
@@ -26,6 +28,13 @@ export const useSolPlaceNewStore = create<solPlaceNewStore>((set) => ({
     // 서버 업로드용
     files: [],
     setFiles: (files) => set((state) => ({ files: [...state.files, files] })),
+
+    // 수정할 때, 이미지 보여주기
+    existingImages: [],
+    setExistingImages: (images) =>
+        set(() => ({
+            existingImages: images,
+        })),
 
     // 초기화하기
     reset: () => set({ title: '', contents: '', files: [], previewUrls: [] }),
