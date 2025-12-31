@@ -1,6 +1,5 @@
 'use client';
 
-import Image from 'next/image';
 import style from './styles.module.css';
 
 interface IButtonBaseProps {

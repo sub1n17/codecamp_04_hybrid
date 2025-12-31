@@ -23,7 +23,17 @@ export default function SolPlaceNew() {
     const { onClickSubmit } = useInitializeNew();
 
     // zustand
-    const { title, setTitle, contents, setContents } = useSolPlaceNewStore();
+    const { title, setTitle, contents, setContents, reset, isFirstNew, setIsFirstNew } =
+        useSolPlaceNewStore();
+
+    // 인풋 초기화
+    useEffect(() => {
+        // 등록페이지에 첫 진입이면 폼 초기화
+        if (isFirstNew) {
+            reset();
+            setIsFirstNew(false);
+        }
+    }, []);
 
     return (
         <>

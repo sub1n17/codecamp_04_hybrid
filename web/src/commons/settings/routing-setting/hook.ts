@@ -9,7 +9,7 @@ export const useRoutingSetting = () => {
     const pathname = usePathname();
     const { fetchApp } = useDeviceSetting();
 
-    const onRouterPush = (href: string) => {
+    const onRouterPush = (href: string, replace?: boolean) => {
         // 링크 태그의 기본 페이지 이동 기능 막기
         // event.preventDefault?.();
 
@@ -22,9 +22,15 @@ export const useRoutingSetting = () => {
 
         if (document.startViewTransition) {
             // 뷰트랜지션 되면 적용해서 뒤로가기
-            document.startViewTransition(() => {
-                return router.push(href);
-            });
+            if (replace) {
+                document.startViewTransition(() => {
+                    return router.replace(href);
+                });
+            } else {
+                document.startViewTransition(() => {
+                    return router.push(href);
+                });
+            }
         } else {
             // 뷰트랜지션 안 되면 그냥 페이지 이동
             return router.push(href);
@@ -33,28 +39,44 @@ export const useRoutingSetting = () => {
 
     // 백버튼 클릭 시 뒤로가기 및 앱 종료
     const onRouterBack = () => {
-        if (mainPage.includes(pathname)) {
-            // 메인페이지에서 백버튼 누르면 앱 종료하기
-            return fetchApp({ query: 'exitDeviceRoutingForBackSet' });
-        } else {
+        // 뷰트랜지션 공통 함수
+        const backTransition = (action: () => void) => {
+            // 뷰트랜지션 되면 적용해서 뒤로가기
             if (document.startViewTransition) {
-                // 뷰트랜지션 되면 적용해서 뒤로가기
                 document
                     .startViewTransition(() => {
                         // 뒤로가기 클래스 붙이기
                         document.documentElement.classList.add('backWithTransition');
-                        // 메인페이지가 아니라면 페이지 뒤로가기
-                        return router.back();
+                        return action();
                     })
                     .finished.finally(() => {
                         // 뒤로가기 실행이 끝나고 나면 클래스 삭제
                         document.documentElement.classList.remove('backWithTransition');
                     });
             } else {
-                // 뷰트랜지션 안 되면 그냥 뒤로가기
-                return router.back();
+                // 뷰트랜지션 안 되면 애니메이션 없이 그냥 뒤로가기
+                action();
             }
+        };
+
+        //  지도 페이지 → 등록 페이지
+        if (pathname.startsWith('/solplace-logs/new/map')) {
+            backTransition(() => router.back());
+            return;
         }
+
+        //  등록 페이지 → 목록으로 강제 이동
+        if (pathname.startsWith('/solplace-logs/new')) {
+            backTransition(() => router.replace('/solplace-logs'));
+            return;
+        }
+
+        // 메인페이지에서 백버튼 누르면 앱 종료하기
+        if (mainPage.includes(pathname)) {
+            return fetchApp({ query: 'exitDeviceRoutingForBackSet' });
+        }
+
+        backTransition(() => router.back());
     };
 
     return {

@@ -11,9 +11,10 @@ interface LinkBaseProps {
     href: string;
     linkText?: string;
     placeAddress?: string;
+    replace?: boolean;
 }
 
-function LinkBase({ linkText, href, placeAddress }: LinkBaseProps) {
+function LinkBase({ linkText, href, placeAddress, replace }: LinkBaseProps) {
     const { onRouterPush } = useRoutingSetting();
     return (
         <>
@@ -22,7 +23,7 @@ function LinkBase({ linkText, href, placeAddress }: LinkBaseProps) {
                 className={style.address_button}
                 onClick={(e) => {
                     e.preventDefault();
-                    onRouterPush(href);
+                    onRouterPush(href, replace);
                 }}
             >
                 <div className={style.address_txt}>{placeAddress ? placeAddress : linkText}</div>

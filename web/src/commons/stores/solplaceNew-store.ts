@@ -17,6 +17,9 @@ interface solPlaceNewStore {
     setExistingImages: (images: string[]) => void;
 
     reset: () => void;
+
+    isFirstNew: boolean;
+    setIsFirstNew: (state: boolean) => void;
 }
 
 export const useSolPlaceNewStore = create<solPlaceNewStore>((set) => ({
@@ -48,4 +51,8 @@ export const useSolPlaceNewStore = create<solPlaceNewStore>((set) => ({
 
     // 초기화하기
     reset: () => set({ title: '', contents: '', files: [], previewUrls: [] }),
+
+    // 등록페이지에 첫 진입일 때 리셋하기 위한 state
+    isFirstNew: true,
+    setIsFirstNew: (state) => set({ isFirstNew: state }),
 }));

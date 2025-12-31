@@ -20,7 +20,6 @@ interface IHeaderBaseProps {
 }
 
 const HeaderBase = ({ title, hasLogo, hasBack, isTransParent }: IHeaderBaseProps) => {
-    const router = useRouter();
     const { onRouterBack } = useRoutingSetting();
     return (
         <>

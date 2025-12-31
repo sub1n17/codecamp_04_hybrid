@@ -57,7 +57,7 @@ export const useInitializeNew = () => {
     // zustand
     const { files } = useSolPlaceNewStore();
 
-    // 로그인 등록
+    // 게시글 등록
     const onClickSubmit = async (data: newSchemaType) => {
         try {
             // 사진 업로드 후 url 받아오기

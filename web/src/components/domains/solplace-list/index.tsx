@@ -8,6 +8,7 @@ import { useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { ButtonCircle } from '../../commons/button';
 import { gql, useQuery } from '@apollo/client';
+import { useSolPlaceNewStore } from '@/src/commons/stores/solplaceNew-store';
 
 const imgSrc = {
     location: '/icons/location.png',
@@ -71,6 +72,8 @@ export default function SolPlaceList({ isPlace }) {
         setPage(1);
         refetch({ page: 1 });
     };
+
+    const { setIsFirstNew } = useSolPlaceNewStore();
 
     return (
         <>
@@ -144,7 +147,11 @@ export default function SolPlaceList({ isPlace }) {
                         ))}
                     </div>
                 </InfiniteScroll>
-                <Link href={'/solplace-logs/new'} className={style.add_place}>
+                <Link
+                    href={'/solplace-logs/new'}
+                    onClick={() => setIsFirstNew(true)}
+                    className={style.add_place}
+                >
                     <ButtonCircle>
                         <Image
                             src={imgSrc.placeAdd}

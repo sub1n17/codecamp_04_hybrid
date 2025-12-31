@@ -32,6 +32,7 @@ export default function SolPlaceNewMap() {
                 </div>
 
                 <Link
+                    replace
                     href={
                         from === 'edit'
                             ? `/solplace-logs/${id}/edit?lat=${lat}&lng=${lng}&address=${encodeURIComponent(
