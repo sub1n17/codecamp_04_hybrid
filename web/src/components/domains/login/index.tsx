@@ -9,13 +9,12 @@ import Form from '../../commons/form';
 import Splash from '../splash';
 
 export default function LogIn() {
-    const {
-        onClickSubmit,
-        // tokenChecking
-    } = useInitializeLogIn();
+    console.log('로그인');
+    const { onClickSubmit, tokenChecking } = useInitializeLogIn();
 
     // 리프레시 토큰 있으면 스플래시화면 보여주기
-    // if (tokenChecking) return <Splash></Splash>;
+    if (tokenChecking) return <Splash></Splash>;
+
     return (
         <>
             <div className={style.title_wrapper}>로그인</div>

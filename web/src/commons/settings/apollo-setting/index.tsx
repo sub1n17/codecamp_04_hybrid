@@ -14,6 +14,7 @@ import { useAccessTokenStore } from '../../stores/token-store';
 import { setContext } from '@apollo/client/link/context';
 import { createUploadLink } from 'apollo-upload-client';
 import { useEffect } from 'react';
+import { useDeviceSetting } from '../device-setting/hook';
 
 interface IApolloSetting {
     children: React.ReactNode;
@@ -84,11 +85,6 @@ export default function ApolloSetting(props: IApolloSetting) {
         link: ApolloLink.from([errorLink, authLink, uploadLink]),
         cache: new InMemoryCache(),
     });
-
-    // const client = new ApolloClient({
-    //     link: errorLink.concat(authLink).concat(httpLink),
-    //     cache: new InMemoryCache(),
-    // });
 
     return <ApolloProvider client={client}> {props.children} </ApolloProvider>;
 }

@@ -13,7 +13,7 @@ declare const window: Window & {
 
 export const useDeviceSetting = () => {
     const fetchApp = async ({ query, variables = {} }: FetchApp) => {
-        // 웹에서 postMessage 실행되지 않게 막기
+        // 웹에서 postMessage 실행되지 않게 막기 (웹에는 RN이 없고 postMessage도 없으므로 기다릴 이유가 없음)
         if (typeof window === 'undefined' || !window.ReactNativeWebView) {
             // 웹에서는 아무것도 안 함
             return Promise.resolve(null);

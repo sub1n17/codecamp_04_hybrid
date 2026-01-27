@@ -6,6 +6,9 @@ import { Toggle } from '../../commons/toggle';
 import { useEffect, useState } from 'react';
 import Footer from '@/src/commons/layout/footer/footer';
 import { message } from 'antd';
+import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
+import { useAccessTokenStore } from '@/src/commons/stores/token-store';
+import { useRouter } from 'next/navigation';
 
 interface DeviceResponse<T> {
     data: T;
@@ -254,6 +257,24 @@ export default function MyPage() {
         }, 1000);
     };
 
+    const router = useRouter();
+    const { setAccessToken } = useAccessTokenStore();
+
+    const onClickLogout = async () => {
+        // zustand에서 지우기
+        setAccessToken('');
+        // 웹의 localStorage에서 지우기 (상세페이지 작성자만 수정하기 위해 로컬스토리지에 토큰 저장함)
+        localStorage.removeItem('accessToken');
+
+        // 앱에서 accessToken, refreshToken 지우기
+        await fetchApp({
+            query: 'deleteDeviceAuthForAccessTokenSet',
+        });
+        await fetchApp({
+            query: 'deleteDeviceAuthForRefreshTokenSet',
+        });
+        router.replace('/login');
+    };
     return (
         <div className={style.mypage}>
             <div className={style.mypage_inner}>
@@ -273,6 +294,10 @@ export default function MyPage() {
                     isLoading={permissions === null}
                     id="notification-toggle"
                 ></Toggle>
+                <div className={style.logout} onClick={onClickLogout}>
+                    <div>로그아웃</div>
+                    <LogoutOutlinedIcon fontSize="small"></LogoutOutlinedIcon>
+                </div>
             </div>
             <Footer navActive={'isMypage'}></Footer>
         </div>

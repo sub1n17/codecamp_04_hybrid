@@ -14,6 +14,7 @@ export default function Splash() {
         const timer = setTimeout(async () => {
             router.replace('/login');
         }, 3000);
+
         return () => {
             clearTimeout(timer);
             fetchApp({ query: 'setDefaultLayout' }); // 기본 상태로 전환
@@ -24,7 +25,6 @@ export default function Splash() {
         <>
             <div
                 style={{
-                    width: '100vw',
                     height: '100vh',
                     position: 'relative',
                     marginInline: '-1.25rem',
@@ -35,6 +35,8 @@ export default function Splash() {
                     alt="트립트립"
                     fill
                     style={{ objectFit: 'cover' }}
+                    loading="eager"
+                    sizes="430px"
                 ></Image>
             </div>
         </>

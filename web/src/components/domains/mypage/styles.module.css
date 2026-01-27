@@ -8,3 +8,15 @@
     flex-direction: 1;
     /* 네비 빼고 남은 공간 다 차지하기 */
 }
+
+.logout {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding-block: 1rem;
+    cursor: pointer;
+}
+
+.logout:hover {
+    opacity: 0.8;
+}

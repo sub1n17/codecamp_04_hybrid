@@ -5,11 +5,21 @@ export const useDeviceAuth = (onResponse) => {
     const [accessToken, setAccessToken] = useState(null);
 
     // accessToken 저장하기
-    const updateDeviceAuthForAccessTokenSet = (variables) => {
+    const updateDeviceAuthForAccessTokenSet = async (variables) => {
         setAccessToken(variables.accessToken);
         onResponse({
-            message: '등록 완료',
+            updateDeviceAuthForAccessTokenSet: {
+                message: 'accessToken 저장 완료',
+            },
         });
+        // onResponse({
+        //     message: 'accessToken 저장 완료',
+        // });
+        // ㄴ> resolve 실행 안 돼서 에러남
+        //  const query = Object.keys(response)[0]; // API 이름 => fetchDeviceSystemForAppSet ...
+        //  const resolves = 요청한API[query]; // resolve01 ...
+        //  resolves({ data: response });
+        // => 쿼리로 감싸지 않으면 resolve 실행 안 됨
     };
 
     // refreshToken 저장하기
@@ -17,7 +27,7 @@ export const useDeviceAuth = (onResponse) => {
         await SecureStore.setItemAsync('refreshToken', variables.refreshToken);
         onResponse({
             updateDeviceAuthForRefreshTokenSet: {
-                message: ' 저장 완료',
+                message: 'refreshToken 저장 완료',
             },
         });
     };
