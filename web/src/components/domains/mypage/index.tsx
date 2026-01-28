@@ -1,5 +1,7 @@
 'use client';
 
+export const dynamic = 'force-dynamic';
+
 import style from './styles.module.css';
 import { useDeviceSetting } from '@/src/commons/settings/device-setting/hook';
 import { Toggle } from '../../commons/toggle';

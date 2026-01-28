@@ -1,5 +1,7 @@
 'use client';
 
+export const dynamic = 'force-dynamic';
+
 import Footer from '@/src/commons/layout/footer/footer';
 import Form from '../../commons/form';
 import { InputNormal } from '../../commons/input';

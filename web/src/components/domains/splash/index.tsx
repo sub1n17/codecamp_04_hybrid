@@ -1,5 +1,7 @@
 'use client';
 
+export const dynamic = 'force-dynamic';
+
 import { useDeviceSetting } from '@/src/commons/settings/device-setting/hook';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
