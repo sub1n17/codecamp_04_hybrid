@@ -1,7 +1,5 @@
 'use client';
 
-export const dynamic = 'force-dynamic';
-
 import Footer from '@/src/commons/layout/footer/footer';
 import { InputNormal } from '../../commons/input';
 import { useInitializeLogIn } from './form.initialize';

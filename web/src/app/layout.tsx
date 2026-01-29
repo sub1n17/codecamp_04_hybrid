@@ -1,5 +1,9 @@
+'use client';
+
+export const dynamic = 'force-dynamic';
+// ㄴ> 브라우저 기능을 SSR/프리렌더 단계에서 실행 못 하게 막기
+
 import type { Metadata, Viewport } from 'next';
-// import { Geist, Geist_Mono } from 'next/font/google';
 import { Inter } from 'next/font/google';
 import './globals.css';
 import Layout from '../commons/layout';
@@ -7,20 +11,16 @@ import { DeviceSetting } from '../commons/settings/device-setting';
 import Script from 'next/script';
 import ApolloSetting from '../commons/settings/apollo-setting';
 
-const geistSans = Inter({
-    variable: '--font-geist-sans',
+const interSans = Inter({
+    variable: '--font-inter-sans',
     subsets: ['latin'],
-    // variable: '--font-geist-sans',
-    // subsets: ['latin'],
-    // preload: false,
+    preload: false,
 });
 
-const geistMono = Inter({
-    variable: '--font-geist-mono',
+const interMono = Inter({
+    variable: '--font-inter-mono',
     subsets: ['latin'],
-    // variable: '--font-geist-mono',
-    // subsets: ['latin'],
-    // preload: false,
+    preload: false,
 });
 
 export const metadata: Metadata = {
@@ -37,13 +37,6 @@ export const viewport: Viewport = {
     userScalable: false,
 };
 
-// SSR에서 실행되면 안 되므로 바로 조건 처리 (브라우저 + 개발 환경에서만 MSW(mock API)를 실행하겠다)
-// if (typeof window !== 'undefined' && process.env.NODE_ENV === 'development') {
-//     import('../mocks/browser').then(({ worker }) => {
-//         worker.start();
-//     });
-// }
-
 export default function RootLayout({
     children,
 }: Readonly<{
@@ -51,7 +44,7 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="ko">
-            <body className={`${geistSans.variable} ${geistMono.variable} antialiased `}>
+            <body className={`${interSans.variable} ${interMono.variable} antialiased `}>
                 {/* react-kakao-maps-sdk가 내부에서 이미 그 스크립트를 로드하기 때문에 필요없음 */}
                 <Script
                     src={`//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_MAP_KEY}&autoload=false&libraries=services`}
